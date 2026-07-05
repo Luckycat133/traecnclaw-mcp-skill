@@ -17,7 +17,25 @@ node -e "console.log(require('./mcp-server').MCP_TOOLS.map(t => t.name).join('\n
 
 ## Client Config Shape
 
-Use this shape for MCP clients with `mcpServers` config, including Cursor, Claude Desktop, Cline/Roo Code, and Windsurf:
+Use this shape for MCP clients with `mcpServers` config, including Cursor, Claude Desktop, Cline/Roo Code, and Windsurf. If the published package is installed globally or in a managed runtime, prefer the package bin:
+
+```json
+{
+  "mcpServers": {
+    "traecn": {
+      "command": "traecnclaw-mcp",
+      "env": {
+        "TRAECN_HOST": "127.0.0.1",
+        "TRAECN_PORT": "8788",
+        "TRAECN_GATEWAY_TOKEN": "",
+        "TRAECN_MCP_TOOL_PROFILE": "public"
+      }
+    }
+  }
+}
+```
+
+For source checkouts, use an absolute `mcp-server.js` path:
 
 ```json
 {
@@ -36,7 +54,7 @@ Use this shape for MCP clients with `mcpServers` config, including Cursor, Claud
 }
 ```
 
-For agents that install the published package globally or in a managed runtime, use `command: "traecnclaw-mcp"` when the bin is on `PATH`. Keep `TRAECN_HOST`, `TRAECN_PORT`, and `TRAECN_GATEWAY_TOKEN` explicit so the agent does not infer unsafe remote access.
+Keep `TRAECN_HOST`, `TRAECN_PORT`, and `TRAECN_GATEWAY_TOKEN` explicit so the agent does not infer unsafe remote access.
 
 OpenClaw may use its own `mcp.servers` config shape and plugin wrapper tools. Generic stdio MCP clients should use the tool names returned by `tools/list`; those names are consistently prefixed with `traecn_` but are not guaranteed to match OpenClaw wrapper names.
 

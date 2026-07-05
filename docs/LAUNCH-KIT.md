@@ -23,7 +23,7 @@ lets AI coding agents operate TraeCN through real tools instead of GUI control.
 It supports readiness checks, task queues, model/mode switching, settings,
 dialogs, code review delegation, and unattended workflow runs.
 
-Repo: https://github.com/Luckycat133/TRAECNclaw
+Repo: https://github.com/Luckycat133/traecnclaw-mcp-skill
 
 ## LinkedIn
 
@@ -44,7 +44,7 @@ It includes:
 - unattended workflow support
 - a portable `.codex/skills/traecnclaw-mcp` skill folder for agent clients
 
-Repo: https://github.com/Luckycat133/TRAECNclaw
+Repo: https://github.com/Luckycat133/traecnclaw-mcp-skill
 
 ## Reddit / Community Post
 
@@ -77,7 +77,7 @@ Use cases:
 - run code review prompts
 - run unattended workflows with evidence
 
-Repo: https://github.com/Luckycat133/TRAECNclaw
+Repo: https://github.com/Luckycat133/traecnclaw-mcp-skill
 
 ## Chinese Post
 
@@ -102,7 +102,7 @@ cleanup、Solo 对话、诊断和长队列 proof 使用。
 - 无人值守 workflow
 - 可直接安装的 `.codex/skills/traecnclaw-mcp`
 
-Repo: https://github.com/Luckycat133/TRAECNclaw
+Repo: https://github.com/Luckycat133/traecnclaw-mcp-skill
 
 ## Directory Submission Note
 

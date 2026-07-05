@@ -88,8 +88,8 @@ Tool profiles:
 ## Checksums
 
 ```text
-67d496100558ab23ffe73a5d02bfabaca11dcd9ab2e1e364d356051380659287  dist/traecnclaw-mcp-skill.tgz
-bb093cdd89bb52f6189e2051c259056d57cb3d5c86bc3f8c3a2184286ca5bf78  dist/traecnclaw-mcp-skill.zip
+7d1a7751428f94721ae22ddf4db264654432c5aa0f3340f90eccd611bb855bb3  dist/traecnclaw-mcp-skill.tgz
+5d5a281bb52bc9426a428b8d62c826802f0e80a8ed4270e4add3c0941c5b25dc  dist/traecnclaw-mcp-skill.zip
 0abc67f3fad36e166a56c2e8a0db1f7461915c23a4e366721e6f137b0a614ebf  dist/traecnclaw-0.3.0.tgz
 ```
 

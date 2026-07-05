@@ -21,7 +21,25 @@ Use TRAECNclaw through its real stdio MCP server, backed by the local HTTP gatew
 ## Operating Workflow
 
 1. Confirm Node 22+ is available and the gateway host can reach TraeCN.
-2. For a source checkout, configure the MCP client with an absolute `mcp-server.js` path:
+2. For a published package install, prefer the package-provided `traecnclaw-mcp` bin when it is on the agent host `PATH`:
+
+```json
+{
+  "mcpServers": {
+    "traecn": {
+      "command": "traecnclaw-mcp",
+      "env": {
+        "TRAECN_HOST": "127.0.0.1",
+        "TRAECN_PORT": "8788",
+        "TRAECN_GATEWAY_TOKEN": "",
+        "TRAECN_MCP_TOOL_PROFILE": "public"
+      }
+    }
+  }
+}
+```
+
+3. For a source checkout, configure the MCP client with an absolute `mcp-server.js` path:
 
 ```json
 {
@@ -40,7 +58,6 @@ Use TRAECNclaw through its real stdio MCP server, backed by the local HTTP gatew
 }
 ```
 
-3. For a published package install, use the package-provided `traecnclaw-mcp` bin when it is on the agent host `PATH`; keep the same environment variables.
 4. Choose a tool profile deliberately: `public` for general agents, `ops` for recovery/proof workflows, `full` for compatibility audits and low-level diagnostics.
 5. Start the gateway separately when needed with `npm run start:gateway`; use `TRAECN_ENABLE_MOCK_BRIDGE=1 npm run start:gateway` only for mock-mode development.
 6. Discover before acting: list MCP tools, call `traecn_get_capabilities`, then call `traecn_preflight` with the intended command and params.

@@ -7,13 +7,13 @@
   "artifacts": [
     {
       "path": "dist/traecnclaw-mcp-skill.tgz",
-      "bytes": 5496,
-      "sha256": "67d496100558ab23ffe73a5d02bfabaca11dcd9ab2e1e364d356051380659287"
+      "bytes": 5443,
+      "sha256": "7d1a7751428f94721ae22ddf4db264654432c5aa0f3340f90eccd611bb855bb3"
     },
     {
       "path": "dist/traecnclaw-mcp-skill.zip",
-      "bytes": 6430,
-      "sha256": "bb093cdd89bb52f6189e2051c259056d57cb3d5c86bc3f8c3a2184286ca5bf78"
+      "bytes": 6444,
+      "sha256": "5d5a281bb52bc9426a428b8d62c826802f0e80a8ed4270e4add3c0941c5b25dc"
     },
     {
       "path": "dist/traecnclaw-0.3.0.tgz",
