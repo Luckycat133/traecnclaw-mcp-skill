@@ -1,0 +1,21 @@
+{
+  "name": "traecnclaw-mcp",
+  "generatedAt": "2026-07-04T15:30:16.428Z",
+  "skillPath": ".codex/skills/traecnclaw-mcp",
+  "artifacts": [
+    {
+      "path": "dist/traecnclaw-mcp-skill.tgz",
+      "bytes": 5496,
+      "sha256": "67d496100558ab23ffe73a5d02bfabaca11dcd9ab2e1e364d356051380659287"
+    },
+    {
+      "path": "dist/traecnclaw-mcp-skill.zip",
+      "bytes": 6430,
+      "sha256": "bb093cdd89bb52f6189e2051c259056d57cb3d5c86bc3f8c3a2184286ca5bf78"
+    }
+  ],
+  "install": {
+    "codexGlobal": "mkdir -p \"${CODEX_HOME:-$HOME/.codex}/skills\" && tar -xzf dist/traecnclaw-mcp-skill.tgz -C \"${CODEX_HOME:-$HOME/.codex}/skills\"",
+    "sourceCheckout": "Use the MCP config examples in README.md or docs/DISTRIBUTION.md with an absolute path to mcp-server.js."
+  }
+}
