@@ -15,6 +15,7 @@ readiness checks, delegate tasks, handle dialogs, and use unattended workflows.
 - `dist/traecnclaw-mcp-skill.zip`: skill archive for manual download
 - `dist/traecnclaw-0.3.0.tgz`: installable TRAECNclaw MCP server package
 - `dist/traecnclaw-mcp-release.json`: checksum and install metadata
+- `harness/`: Harness Worker Agent marketplace submission draft
 - `docs/LAUNCH-KIT.md`: announcement and listing copy
 
 ## Requirements
