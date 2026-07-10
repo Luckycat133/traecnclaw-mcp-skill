@@ -17,6 +17,7 @@ readiness checks, delegate tasks, handle dialogs, and use unattended workflows.
 - `npm-package/traecnclaw-0.3.0.tgz`: npm-ready public package tarball
 - `dist/traecnclaw-mcp-release.json`: checksum and install metadata
 - `scripts/repack-npm-package.js`: reproducibly builds the npm-ready tarball
+- `Dockerfile` and `glama.json`: reproducible Glama build and ownership metadata
 - `harness/`: Harness Worker Agent marketplace submission draft
 - `docs/LAUNCH-KIT.md`: announcement and listing copy
 

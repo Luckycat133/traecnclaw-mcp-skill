@@ -1,0 +1,11 @@
+.git
+.gitignore
+.DS_Store
+docs
+dist
+harness
+scripts
+README.md
+release-manifest.json
+*.log
+*.zip
