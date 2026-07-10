@@ -14,7 +14,9 @@ readiness checks, delegate tasks, handle dialogs, and use unattended workflows.
 - `dist/traecnclaw-mcp-skill.tgz`: skill archive for direct install
 - `dist/traecnclaw-mcp-skill.zip`: skill archive for manual download
 - `dist/traecnclaw-0.3.0.tgz`: installable TRAECNclaw MCP server package
+- `npm-package/traecnclaw-0.3.0.tgz`: npm-ready public package tarball
 - `dist/traecnclaw-mcp-release.json`: checksum and install metadata
+- `scripts/repack-npm-package.js`: reproducibly builds the npm-ready tarball
 - `harness/`: Harness Worker Agent marketplace submission draft
 - `docs/LAUNCH-KIT.md`: announcement and listing copy
 
@@ -58,6 +60,14 @@ For a GitHub Release download, use the release asset URL:
 
 ```sh
 npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0.tgz
+```
+
+Maintainers can rebuild and validate the npm-ready package without including
+uncommitted source-checkout changes:
+
+```sh
+node scripts/repack-npm-package.js
+npm publish --dry-run ./npm-package/traecnclaw-0.3.0.tgz
 ```
 
 ## MCP Client Config
