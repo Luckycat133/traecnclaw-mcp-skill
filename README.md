@@ -49,7 +49,16 @@ Restart your agent client after installing the skill.
 
 ## Install The MCP Server
 
-Install the included package tarball globally:
+Install the published package globally:
+
+```sh
+npm install -g traecnclaw
+traecnclaw --help
+traecnclaw-mcp
+```
+
+For an offline install from a cloned checkout, use the included package
+tarball:
 
 ```sh
 npm install -g ./dist/traecnclaw-0.3.0.tgz
