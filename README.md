@@ -62,10 +62,10 @@ For a GitHub Release download, use the release asset URL:
 npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0.tgz
 ```
 
-To install the npm-ready package directly from the public repository:
+To install the npm-ready package from the versioned release asset:
 
 ```sh
-npm install -g https://raw.githubusercontent.com/Luckycat133/traecnclaw-mcp-skill/main/npm-package/traecnclaw-0.3.0.tgz
+npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0-npm-ready.tgz
 ```
 
 Maintainers can rebuild and validate the npm-ready package without including
