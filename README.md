@@ -62,6 +62,12 @@ For a GitHub Release download, use the release asset URL:
 npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0.tgz
 ```
 
+To install the npm-ready package directly from the public repository:
+
+```sh
+npm install -g https://raw.githubusercontent.com/Luckycat133/traecnclaw-mcp-skill/main/npm-package/traecnclaw-0.3.0.tgz
+```
+
 Maintainers can rebuild and validate the npm-ready package without including
 uncommitted source-checkout changes:
 
@@ -102,6 +108,7 @@ Tool profiles:
 7d1a7751428f94721ae22ddf4db264654432c5aa0f3340f90eccd611bb855bb3  dist/traecnclaw-mcp-skill.tgz
 5d5a281bb52bc9426a428b8d62c826802f0e80a8ed4270e4add3c0941c5b25dc  dist/traecnclaw-mcp-skill.zip
 0abc67f3fad36e166a56c2e8a0db1f7461915c23a4e366721e6f137b0a614ebf  dist/traecnclaw-0.3.0.tgz
+823c9a07dcd6574a979c51d19bc51bdccb8569f4c24460f42bba170c272a156b  npm-package/traecnclaw-0.3.0.tgz
 ```
 
 ## Safety
