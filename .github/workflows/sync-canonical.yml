@@ -1,0 +1,59 @@
+name: Sync canonical Skill
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Canonical TRAECNclaw ref
+        required: false
+        default: main
+  repository_dispatch:
+    types: [sync-traecnclaw-skill]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out mirror
+        uses: actions/checkout@v7
+        with:
+          path: mirror
+      - name: Check out canonical private source
+        uses: actions/checkout@v7
+        with:
+          repository: Luckycat133/TRAECNclaw
+          ref: ${{ github.event.client_payload.ref || inputs.ref || 'main' }}
+          token: ${{ secrets.TRAECNCLAW_SYNC_TOKEN }}
+          path: source
+      - name: Copy generated public Skill
+        run: |
+          rsync -a --delete source/skills/traecnclaw-mcp/ mirror/.codex/skills/traecnclaw-mcp/
+          revision="$(git -C source rev-parse HEAD)"
+          {
+            echo 'Canonical repository: https://github.com/Luckycat133/TRAECNclaw'
+            echo "Canonical commit: $revision"
+            echo 'Canonical path: skills/traecnclaw-mcp'
+            echo 'Generated mirror: do not edit the mirrored Skill by hand.'
+          } > mirror/SOURCE_REVISION
+      - name: Open synchronization pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd mirror
+          if git diff --quiet; then
+            echo 'Mirror already matches the canonical source.'
+            exit 0
+          fi
+          revision="$(git -C ../source rev-parse --short=12 HEAD)"
+          branch="sync/traecnclaw-$revision"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
+          git add .codex/skills/traecnclaw-mcp SOURCE_REVISION
+          git commit -m "sync: TRAECNclaw $revision"
+          git push --set-upstream origin "$branch"
+          gh pr create --base main --head "$branch" --title "Sync TRAECNclaw Skill $revision" --body "Generated from canonical TRAECNclaw commit $revision."
