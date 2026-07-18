@@ -1,35 +1,30 @@
 # TRAECNclaw MCP Skill
 
-Public distribution bundle for the TRAECNclaw Agent Skill and stdio MCP server
-package.
+> Status: Thin Public Distribution Repository
 
-TRAECNclaw MCP lets MCP-capable AI agents operate TraeCN through a local,
-auditable stdio MCP server instead of GUI automation. The bundled skill teaches
-agents how to configure the server, choose the right tool profile, run
-readiness checks, delegate tasks, handle dialogs, and use unattended workflows.
+This repository is a **generated public distribution mirror**.
 
-## Contents
+- Canonical source: [Luckycat133/TRAECNclaw](https://github.com/Luckycat133/TRAECNclaw)
+- Canonical path: `skills/traecnclaw-mcp`
+- Mirrored path: `.codex/skills/traecnclaw-mcp`
+- Exact source revision: [`SOURCE_REVISION`](./SOURCE_REVISION)
 
-- `.codex/skills/traecnclaw-mcp`: portable Agent Skill
-- `dist/traecnclaw-mcp-skill.tgz`: skill archive for direct install
-- `dist/traecnclaw-mcp-skill.zip`: skill archive for manual download
-- `dist/traecnclaw-0.3.0.tgz`: installable TRAECNclaw MCP server package
-- `npm-package/traecnclaw-0.3.0.tgz`: npm-ready public package tarball
-- `dist/traecnclaw-mcp-release.json`: checksum and install metadata
-- `scripts/repack-npm-package.js`: reproducibly builds the npm-ready tarball
-- `Dockerfile` and `glama.json`: reproducible Glama build and ownership metadata
-- `harness/`: Harness Worker Agent marketplace submission draft
-- `docs/LAUNCH-KIT.md`: announcement and listing copy
+Do not edit the mirrored Skill by hand. Behavior, version, tests, MCP code, npm
+packages, and release artifacts are produced from TRAECNclaw.
 
-## Requirements
+## What stays in Git
 
-- Node.js 22 or newer
-- TraeCN desktop application
-- TraeCN running with a remote debugging port
-- Any stdio MCP client, such as Codex, Claude Desktop, Cursor, Cline/Roo Code,
-  Windsurf, or OpenClaw
+- the public Agent Skill source
+- installation documentation
+- source-revision metadata
+- marketplace metadata and release notes
+- automation that verifies the mirror
 
-## Install The Skill
+Generated `.tgz`, `.zip`, npm-ready directories, and checksum manifests belong
+in [GitHub Releases](https://github.com/Luckycat133/traecnclaw-mcp-skill/releases),
+not in the default branch.
+
+## Install the Skill
 
 From a cloned checkout:
 
@@ -38,57 +33,13 @@ mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R .codex/skills/traecnclaw-mcp "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
-From the archive:
+For release archives, download the matching asset from the Releases page and
+verify it against the release checksum manifest before extracting it.
 
-```sh
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-tar -xzf dist/traecnclaw-mcp-skill.tgz -C "${CODEX_HOME:-$HOME/.codex}/skills"
-```
+## MCP server
 
-Restart your agent client after installing the skill.
-
-## Install The MCP Server
-
-Install the published package globally:
-
-```sh
-npm install -g traecnclaw
-traecnclaw --help
-traecnclaw-mcp
-```
-
-For an offline install from a cloned checkout, use the included package
-tarball:
-
-```sh
-npm install -g ./dist/traecnclaw-0.3.0.tgz
-traecnclaw --help
-traecnclaw-mcp
-```
-
-For a GitHub Release download, use the release asset URL:
-
-```sh
-npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0.tgz
-```
-
-To install the npm-ready package from the versioned release asset:
-
-```sh
-npm install -g https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download/v0.3.0-mcp-skill.1/traecnclaw-0.3.0-npm-ready.tgz
-```
-
-Maintainers can rebuild and validate the npm-ready package without including
-uncommitted source-checkout changes:
-
-```sh
-node scripts/repack-npm-package.js
-npm publish --dry-run ./npm-package/traecnclaw-0.3.0.tgz
-```
-
-## MCP Client Config
-
-Use this config when the `traecnclaw-mcp` bin is on `PATH`:
+The Skill is a client guide; the executable MCP server comes from TRAECNclaw.
+When the package is installed and `traecnclaw-mcp` is on `PATH`:
 
 ```json
 {
@@ -106,25 +57,17 @@ Use this config when the `traecnclaw-mcp` bin is on `PATH`:
 }
 ```
 
-Tool profiles:
+Keep the gateway on `127.0.0.1` unless remote access is intentional. Use a
+token for any shared or non-local environment.
 
-- `public`: 20 common tools for normal agent integrations
-- `ops`: recovery, cleanup, Solo conversation control, and long-queue proof tools
-- `full`: every explicit shortcut for compatibility and audits
+## Release provenance
 
-## Checksums
+Every public release must identify the canonical TRAECNclaw commit that produced
+it. A mirror update is valid only when the mirrored Skill matches that canonical
+path byte-for-byte.
 
-```text
-7d1a7751428f94721ae22ddf4db264654432c5aa0f3340f90eccd611bb855bb3  dist/traecnclaw-mcp-skill.tgz
-5d5a281bb52bc9426a428b8d62c826802f0e80a8ed4270e4add3c0941c5b25dc  dist/traecnclaw-mcp-skill.zip
-0abc67f3fad36e166a56c2e8a0db1f7461915c23a4e366721e6f137b0a614ebf  dist/traecnclaw-0.3.0.tgz
-823c9a07dcd6574a979c51d19bc51bdccb8569f4c24460f42bba170c272a156b  npm-package/traecnclaw-0.3.0.tgz
-```
-
-## Safety
-
-Bind the TRAECNclaw gateway to `127.0.0.1` unless remote access is intentional.
-Use `TRAECN_GATEWAY_TOKEN` for shared or non-local environments.
+Glama metadata is retained, but Glama account setup and deployment remain a
+separate maintainer task.
 
 ## License
 
