@@ -1,3 +1,9 @@
 .DS_Store
 node_modules/
 *.log
+
+# Generated release artifacts belong in GitHub Releases, not Git history.
+dist/
+npm-package/
+*.tgz
+*.zip
