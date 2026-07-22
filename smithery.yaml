@@ -1,0 +1,42 @@
+# Smithery configuration for TRAECNclaw MCP server
+# https://smithery.ai/docs/config
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: []
+    properties:
+      traecnHost:
+        type: string
+        default: 127.0.0.1
+        description: Host the TraeCN gateway listens on.
+      traecnPort:
+        type: string
+        default: "8788"
+        description: Port the TraeCN gateway listens on.
+      traecnGatewayToken:
+        type: string
+        description: >-
+          Gateway auth token (secret). Only needed for non-public tool
+          profiles. Leave empty when using the default public profile.
+      traecnMcpToolProfile:
+        type: string
+        default: public
+        description: >-
+          Tool exposure profile. 'public' limits tools to safe operations.
+    additionalProperties: false
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-p', 'traecnclaw@0.3.1', 'traecnclaw-mcp'],
+      env: {
+        TRAECN_HOST: config.traecnHost || '127.0.0.1',
+        TRAECN_PORT: config.traecnPort || '8788',
+        TRAECN_MCP_TOOL_PROFILE: config.traecnMcpToolProfile || 'public',
+        ...(config.traecnGatewayToken ? { TRAECN_GATEWAY_TOKEN: config.traecnGatewayToken } : {})
+      }
+    })
+  exampleConfig:
+    traecnHost: 127.0.0.1
+    traecnPort: "8788"
+    traecnMcpToolProfile: public
