@@ -1,5 +1,10 @@
 # TRAECNclaw MCP Skill
 
+[![Glama score](https://glama.ai/mcp/servers/Luckycat133/traecnclaw-mcp-skill/badges/score.svg)](https://glama.ai/mcp/servers/Luckycat133/traecnclaw-mcp-skill)
+[![Smithery](https://smithery.ai/badge/xingmiao201081/traecnclaw-mcp)](https://smithery.ai/skills/xingmiao201081/traecnclaw-mcp)
+[![npm version](https://img.shields.io/npm/v/traecnclaw.svg)](https://www.npmjs.com/package/traecnclaw)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-blue)](https://modelcontextprotocol.io)
+
 > Status: Thin Public Distribution Repository
 
 This repository is a **generated public distribution mirror**.
