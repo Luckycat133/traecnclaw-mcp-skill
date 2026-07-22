@@ -6,6 +6,18 @@ compatibility: Requires Node.js 22+, a running TraeCN IDE instance with CDP remo
 metadata:
   author: TRAECNclaw
   version: "0.4.0"
+  tags:
+    - traecn
+    - mcp
+    - desktop-automation
+    - ai-agent
+    - claude
+    - cursor
+    - codex
+    - openclaw
+    - automation
+    - ide-control
+  category: automation
 ---
 
 # TRAECNclaw MCP
