@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out mirror
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: mirror
       - name: Check out canonical private source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: Luckycat133/TRAECNclaw
           ref: ${{ github.event.client_payload.ref || inputs.ref || 'main' }}
