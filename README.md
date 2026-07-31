@@ -1,6 +1,6 @@
 # TRAECNclaw MCP Skill
 
-> Generated from canonical TRAECNclaw 0.5.0 at commit `5bf61db3c06a3616c772e09d058e4ea1a01e2d72`.
+> Generated from canonical TRAECNclaw 0.5.0 at commit `fc5e54e9dc5a02b1c7069f13a72591e79f4f4f7e`.
 
 This repository mirrors the portable TRAECNclaw Agent Skill byte-for-byte.
 TRAECNclaw exposes MCP contract version 5 with exactly 20 stable, single-intent
@@ -9,10 +9,16 @@ tools. The normal Agent flow is:
 1. Open a workspace only when needed.
 2. Select model or mode only when needed.
 3. Send one message and release the caller context.
-4. Receive the durable notification, then read the task only when the result is needed.
+4. Legacy MCP clients receive a durable notification; modern `2026-07-28`
+   clients read the task only when its state or result is needed.
 
 Queueing, waiting, recovery, routine approvals, task ownership, and durable
 notifications remain gateway-managed.
+
+The local server uses standard newline-delimited stdio, implements MCP
+`2026-07-28`, and remains compatible with initialization-based `2025-11-25`
+and `2024-11-05` clients. TRAECNclaw contract version 5 is the tool-surface
+version, not the MCP protocol revision.
 
 ## Install
 
