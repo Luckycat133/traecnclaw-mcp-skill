@@ -3,7 +3,7 @@
   "mcpServers": {
     "traecn": {
       "command": "node",
-      "args": ["SKILL_DIR/scripts/start-mcp.js"],
+      "args": ["/absolute/path/to/TRAECNclaw/mcp-server.js"],
       "env": {
         "TRAECN_GATEWAY_HOST": "127.0.0.1",
         "TRAECN_GATEWAY_PORT": "8788",

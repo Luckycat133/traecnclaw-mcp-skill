@@ -1,128 +1,35 @@
 # TRAECNclaw MCP Skill
 
-[![Glama score](https://glama.ai/mcp/servers/Luckycat133/traecnclaw-mcp-skill/badges/score.svg)](https://glama.ai/mcp/servers/Luckycat133/traecnclaw-mcp-skill)
-[![Smithery](https://smithery.ai/badge/xingmiao201081/traecnclaw-mcp)](https://smithery.ai/skills/xingmiao201081/traecnclaw-mcp)
-[![npm version](https://img.shields.io/npm/v/traecnclaw.svg)](https://www.npmjs.com/package/traecnclaw)
-[![MCP](https://img.shields.io/badge/MCP-Compatible-blue)](https://modelcontextprotocol.io)
+> Generated from canonical TRAECNclaw 0.5.0 at commit `5bf61db3c06a3616c772e09d058e4ea1a01e2d72`.
 
-> Status: Thin Public Distribution Repository
+This repository mirrors the portable TRAECNclaw Agent Skill byte-for-byte.
+TRAECNclaw exposes MCP contract version 5 with exactly 20 stable, single-intent
+tools. The normal Agent flow is:
 
-This repository is a **generated public distribution mirror**.
+1. Open a workspace only when needed.
+2. Select model or mode only when needed.
+3. Send one message and release the caller context.
+4. Receive the durable notification, then read the task only when the result is needed.
 
-- Canonical source: [Luckycat133/TRAECNclaw](https://github.com/Luckycat133/TRAECNclaw)
-- Canonical path: `skills/traecnclaw-mcp`
-- Mirrored path: `.codex/skills/traecnclaw-mcp`
-- Exact source revision: [`SOURCE_REVISION`](./SOURCE_REVISION)
+Queueing, waiting, recovery, routine approvals, task ownership, and durable
+notifications remain gateway-managed.
 
-Do not edit the mirrored Skill by hand. Behavior, version, tests, MCP code, npm
-packages, and release artifacts are produced from TRAECNclaw.
+## Install
 
-## What stays in Git
+Use the canonical [TRAECNclaw release](https://github.com/Luckycat133/TRAECNclaw/releases)
+or a source checkout. Copy `.codex/skills/traecnclaw-mcp` into the client's
+Skill directory and use its `assets/mcp-client-config.json` launcher template.
 
-- the public Agent Skill source
-- installation documentation
-- source-revision metadata
-- marketplace metadata and release notes
-- automation that verifies the mirror
+The mirror does not advertise an npm or official MCP Registry version until
+that exact artifact has been published and verified. Smithery's retired
+`smithery.yaml` format is intentionally absent; a future Smithery listing must
+use a published MCPB bundle. `glama.json` remains the current Glama metadata.
 
-Generated `.tgz`, `.zip`, npm-ready directories, and checksum manifests belong
-in [GitHub Releases](https://github.com/Luckycat133/traecnclaw-mcp-skill/releases),
-not in the default branch.
+## Configuration
 
-## Installation
+The canonical gateway defaults are `TRAECN_GATEWAY_HOST=127.0.0.1` and
+`TRAECN_GATEWAY_PORT=8788`. Non-loopback binds require
+`TRAECN_GATEWAY_TOKEN`. There is no MCP tool-profile setting.
 
-TRAECNclaw MCP is published across several channels. Pick the one that fits
-your client — they all serve the same `traecnclaw-mcp` stdio server.
-
-### Option 1 — Glama (recommended, one-click)
-
-Open the Glama server page and click **Install**; Glama reads `glama.json`
-from this repo and emits a paste-ready MCP config for Claude Desktop, Cursor,
-and more.
-
-- https://glama.ai/mcp/servers/@Luckycat133/traecnclaw-mcp-skill
-
-### Option 2 — npm (global install)
-
-```sh
-npm install -g traecnclaw@0.3.1
-```
-
-This puts the `traecnclaw-mcp` stdio server on your `PATH`. Then register it
-with your client using the config below.
-
-### Option 3 — npx (no install)
-
-For clients that can launch via `npx`:
-
-```json
-{
-  "mcpServers": {
-    "traecn": {
-      "command": "npx",
-      "args": ["-y", "traecnclaw@0.3.1", "traecnclaw-mcp"],
-      "env": { "TRAECN_MCP_TOOL_PROFILE": "public" }
-    }
-  }
-}
-```
-
-### Option 4 — MCP Registry
-
-The server is indexed in the official Model Context Protocol Registry as
-`io.github.Luckycat133/traecnclaw` (v0.3.1). Registry-aware clients can
-discover and install it automatically.
-
-### Option 5 — Smithery (Codex / Cursor / OpenClaw Skill)
-
-Install the packaged Skill for AI coding clients; the page offers one-click
-install for Codex, OpenClaw, Cursor, and GitHub Copilot.
-
-- https://smithery.ai/skills/xingmiao201081/traecnclaw-mcp
-
-### MCP client configuration
-
-Once the server binary is available (any of Options 2–3), register it with
-your client. Example `mcp.json` / `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "traecn": {
-      "command": "traecnclaw-mcp",
-      "env": {
-        "TRAECN_HOST": "127.0.0.1",
-        "TRAECN_PORT": "8788",
-        "TRAECN_GATEWAY_TOKEN": "",
-        "TRAECN_MCP_TOOL_PROFILE": "public"
-      }
-    }
-  }
-}
-```
-
-Keep the gateway on `127.0.0.1` unless remote access is intentional. Use a
-token for any shared or non-local environment.
-
-## Install the Skill (from a cloned checkout)
-
-```sh
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R .codex/skills/traecnclaw-mcp "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
-
-For release archives, download the matching asset from the Releases page and
-verify it against the release checksum manifest before extracting it.
-
-## Release provenance
-
-Every public release must identify the canonical TRAECNclaw commit that produced
-it. A mirror update is valid only when the mirrored Skill matches that canonical
-path byte-for-byte.
-
-Glama, Smithery, and the MCP Registry metadata are retained and already
-deployed; this mirror stays in sync via the `Sync canonical Skill` workflow.
-
-## License
-
-MIT
+See `SOURCE_REVISION` and `release-manifest.json` for provenance and
+marketplace readiness.
