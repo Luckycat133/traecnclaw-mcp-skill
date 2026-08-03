@@ -1,6 +1,6 @@
 # TRAECNclaw MCP Skill
 
-> Generated from canonical TRAECNclaw 0.5.0 at commit `fc5e54e9dc5a02b1c7069f13a72591e79f4f4f7e`.
+> Generated from canonical TRAECNclaw 0.5.3 at commit `8b97e3749cf71c2936b2ee8edf944017a5c7d705`.
 
 This repository mirrors the portable TRAECNclaw Agent Skill byte-for-byte.
 TRAECNclaw exposes MCP contract version 5 with exactly 20 stable, single-intent
@@ -10,21 +10,25 @@ tools. The normal Agent flow is:
 2. Select model or mode only when needed.
 3. Send one message and release the caller context.
 4. Legacy MCP clients receive a durable notification; modern `2026-07-28`
-   clients read the task only when its state or result is needed.
+   hosts can negotiate Tasks and subscribe to the exact returned task ID.
 
-Queueing, waiting, recovery, routine approvals, task ownership, and durable
+Queueing, waiting, recovery, routine non-command questions, task ownership, and durable
 notifications remain gateway-managed.
 
 The local server uses standard newline-delimited stdio, implements MCP
 `2026-07-28`, and remains compatible with initialization-based `2025-11-25`
 and `2024-11-05` clients. TRAECNclaw contract version 5 is the tool-surface
-version, not the MCP protocol revision.
+version, not the MCP protocol revision. The independently negotiated,
+upstream-draft `io.modelcontextprotocol/tasks` extension does not add tools.
 
 ## Install
 
 Use the canonical [TRAECNclaw release](https://github.com/Luckycat133/TRAECNclaw/releases)
-or a source checkout. Copy `.codex/skills/traecnclaw-mcp` into the client's
-Skill directory and use its `assets/mcp-client-config.json` launcher template.
+or a source checkout. Install the matching complete server archive, copy
+`.codex/skills/traecnclaw-mcp` into the client's Skill directory, and use its
+`assets/mcp-client-config.json` launcher template. The launcher resolves an
+explicit server path, repository checkout, installed package, or
+`traecnclaw-mcp` executable on `PATH`, in that order.
 
 The mirror does not advertise an npm or official MCP Registry version until
 that exact artifact has been published and verified. Smithery's retired
