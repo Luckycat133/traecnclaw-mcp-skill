@@ -4,7 +4,7 @@ description: Operate TraeCN through TRAECNclaw's focused stdio MCP tools. Use wh
 license: MIT-0
 metadata:
   author: TRAECNclaw
-  version: "0.5.3"
+  version: "0.5.6"
   openclaw:
     requires:
       bins:
@@ -34,7 +34,7 @@ operations from the agent loop; the gateway owns those mechanics.
 ## Setup
 
 1. Install the matching TRAECNclaw server from its source checkout or release server archive. The launcher checks the repository, an installed `traecnclaw` package, then `traecnclaw-mcp` on `PATH`; it never executes a JavaScript path selected by an environment variable.
-2. Run `npm run doctor` in a source checkout, then configure the client from [assets/mcp-client-config.json](assets/mcp-client-config.json), replacing `SKILL_DIR` with this folder's absolute path. Use [assets/mcp-client-config.direct.json](assets/mcp-client-config.direct.json) when directly referencing the repository server.
+2. Run `npm run doctor` in a source checkout. Then run `npm run --silent setup:mcp` from the checkout, or `node scripts/setup-mcp.js` from this Skill directory, to validate the server and print a resolved client entry. Use `--output FILE` to create a new mode-0600 file atomically; the command never overwrites an existing file. The JSON templates under [assets](assets) remain manual fallbacks.
 3. Start the gateway with `npm run start:gateway`, then reconnect the MCP client.
 4. Use mock mode only for development; never cite mock output as live TraeCN evidence.
 
@@ -64,6 +64,10 @@ ID and receive a complete `notifications/tasks` snapshot; hosts without that
 extension call `traecn_get_task` only for an intentional later status/result
 read. If a modern task reports `input_required`, its elicitation and
 `tasks/update` response carry the same approval safeguards documented below.
+The first legacy connection for a client ID baselines retained history before
+notifications start. Reusing that stable ID later resumes only durably
+unacknowledged events; configure a distinct `TRAECN_MCP_CLIENT_ID` when the
+host-derived name is not unique.
 Use `traecn_cancel_task` for one known gateway task. Use
 `traecn_stop_generation` only when the user wants the
 generation currently visible in TraeCN stopped. First list conversations and

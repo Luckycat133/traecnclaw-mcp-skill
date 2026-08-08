@@ -1,6 +1,6 @@
 # TRAECNclaw MCP Skill
 
-> Generated from canonical TRAECNclaw 0.5.3 at commit `8b97e3749cf71c2936b2ee8edf944017a5c7d705`.
+> Generated from canonical TRAECNclaw 0.5.6 at commit `0fde120d5c2ac848ef61f14b7d3faf1e44c74894`.
 
 This repository mirrors the portable TRAECNclaw Agent Skill byte-for-byte.
 TRAECNclaw exposes MCP contract version 5 with exactly 20 stable, single-intent
