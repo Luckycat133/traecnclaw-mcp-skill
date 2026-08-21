@@ -25,27 +25,62 @@ clients. TRAECNclaw contract version 5 is the tool-surface version, not the MCP
 protocol revision. The independently negotiated, upstream-draft
 `io.modelcontextprotocol/tasks` extension does not add tools.
 
-## Install
+## Install the server
 
 Use this repository's matching [GitHub Release](https://github.com/Luckycat133/traecnclaw-mcp-skill/releases)
-for both the complete server archive and the portable Skill archive. Install the
-matching server, install `.codex/skills/traecnclaw-mcp`, and use its
-`assets/mcp-client-config.json` launcher template or `scripts/setup-mcp.js`.
+for the complete server archive. Install the exact archive version before
+configuring a host; do not use the unrelated historical npm 0.3.1 package as a
+current server.
+
+## Install the Agent Skill
+
+Install from this public repository with the open Skills CLI:
+
+```sh
+npx skills add https://github.com/Luckycat133/traecnclaw-mcp-skill \
+  --skill traecnclaw-mcp \
+  -g
+```
+
+Or download the matching Skill archive from the GitHub Release. The Skill lives
+at `.codex/skills/traecnclaw-mcp` and includes the launcher, setup script, and
+host configuration template. Restart the Agent host after installing or
+updating the Skill.
+
+Use `scripts/setup-mcp.js` to validate server discovery and generate the host
+entry. The normal runtime is:
+
+```text
+Agent host -> local stdio server -> gateway on the same Mac -> TraeCN
+```
 
 The server and gateway run on the same user-owned Mac as TraeCN. Marketplace
 containers may inspect the stdio schema, but a cloud container cannot
 transparently control the user's local TraeCN desktop.
 
-The mirror does not advertise an npm or official MCP Registry version until
-that exact artifact has been published and verified. Smithery's retired
-`smithery.yaml` format is intentionally absent; a future Smithery listing must
-use a published MCPB bundle.
+The mirror does not advertise a current npm or Official MCP Registry version
+until that exact artifact has been published and verified. Smithery local
+publication will use a verified MCPB bundle; the retired `smithery.yaml` format
+remains absent.
 
 ## Configuration
 
 The gateway defaults are `TRAECN_GATEWAY_HOST=127.0.0.1` and
 `TRAECN_GATEWAY_PORT=8788`. Non-loopback binds require
 `TRAECN_GATEWAY_TOKEN`. There is no MCP tool-profile setting.
+
+## Discovery channels
+
+This repository is the canonical public source for Skill and MCP directory
+submissions. A listing is trustworthy only when its version, local stdio
+transport, macOS requirement, 20-tool count, and generated install command match
+this Release.
+
+Current distribution includes the public GitHub Release and ClawHub. Glama,
+skills.sh, AwesomeSkills.dev, MCP.Directory, MCPB/Smithery Local, and—after a
+current public package exists—the Official MCP Registry and PulseMCP are the
+selected next channels. Other directories should reuse this same provenance and
+install copy rather than maintaining forks.
 
 ## Glama
 
