@@ -1,11 +1,11 @@
 {
   "name": "traecnclaw-mcp-skill",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "contractVersion": 5,
   "toolCount": 20,
   "repository": "https://github.com/Luckycat133/traecnclaw-mcp-skill",
   "canonicalRepository": "https://github.com/Luckycat133/TRAECNclaw",
-  "sourceRevision": "c8d492d2e5eba28a209c68b14e280cf0cbdfac39",
+  "sourceRevision": "4edb1b3455ce3097f23af2112d230225295cc658",
   "skillPath": ".codex/skills/traecnclaw-mcp",
   "marketplaces": {
     "glama": {
@@ -17,14 +17,21 @@
     },
     "smithery": {
       "status": "requires-mcpb-publication",
+      "mode": "local-mcpb",
       "legacySmitheryYaml": false
     },
     "officialMcpRegistry": {
       "status": "requires-public-package-publication",
+      "name": "io.github.Luckycat133/traecnclaw",
       "schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json"
     },
     "npm": {
-      "status": "not-asserted-until-published"
+      "status": "not-asserted-until-published",
+      "package": "@luckycat133/traecnclaw"
+    },
+    "homebrew": {
+      "status": "not-asserted-until-published",
+      "formula": "Luckycat133/tap/traecnclaw"
     }
   }
 }

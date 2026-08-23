@@ -1,6 +1,6 @@
 # TRAECNclaw MCP Skill
 
-> Generated from canonical TRAECNclaw 0.5.8 at commit `c8d492d2e5eba28a209c68b14e280cf0cbdfac39`.
+> Generated from canonical TRAECNclaw 0.5.9 at commit `4edb1b3455ce3097f23af2112d230225295cc658`.
 
 TRAECNclaw is a local-first MCP server and Agent Skill for operating the TraeCN
 desktop app on the user's Mac. This repository is the public distribution
@@ -27,10 +27,18 @@ protocol revision. The independently negotiated, upstream-draft
 
 ## Install the server
 
-Use this repository's matching [GitHub Release](https://github.com/Luckycat133/traecnclaw-mcp-skill/releases)
-for the complete server archive. Install the exact archive version before
-configuring a host; do not use the unrelated historical npm 0.3.1 package as a
-current server.
+Install the exact release through one verified channel:
+
+```sh
+npm install --global @luckycat133/traecnclaw@0.5.9
+# or, after `brew info` reports 0.5.9
+brew install Luckycat133/tap/traecnclaw
+```
+
+The matching [GitHub Release](https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/tag/v0.5.9)
+also provides the complete scoped npm tarball and deterministic MCPB bundle.
+The unrelated unscoped `traecnclaw@0.3.1` package is historical and is not a
+current install path.
 
 ## Install the Agent Skill
 
@@ -58,10 +66,10 @@ The server and gateway run on the same user-owned Mac as TraeCN. Marketplace
 containers may inspect the stdio schema, but a cloud container cannot
 transparently control the user's local TraeCN desktop.
 
-The mirror does not advertise an npm or Official MCP Registry version until
-that exact artifact has been published and verified. Smithery local publication
-will use a verified MCPB bundle; the retired `smithery.yaml` format remains
-absent.
+Prepared Official Registry metadata uses the scoped package
+`@luckycat133/traecnclaw@0.5.9` with local stdio transport. Smithery Local
+uses the matching verified MCPB bundle; the retired `smithery.yaml` format
+remains absent.
 
 ## Configuration
 
