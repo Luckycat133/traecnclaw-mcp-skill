@@ -1,28 +1,28 @@
-# Glama build for traecnclaw-mcp-skill
+# Glama inspection image for TRAECNclaw MCP 0.5.6
 #
-# Installs the MCP server npm package from GitHub Releases.
-# Runs traecnclaw-mcp in stdio mode — no gateway token in this image.
-#
-# Tokens / secrets must be injected at runtime via environment variables
-# or Glama’s credential injection, never baked into the image.
+# This image lets Glama build the public package and inspect the stdio MCP
+# schema. Normal TRAECNclaw execution remains local-first: the gateway and
+# TraeCN desktop run on the user's Mac. Do not bake gateway credentials into
+# this image and do not enable mock mode to imitate a live desktop connection.
 
-FROM node:22-alpine AS runner
+FROM node:22-alpine
 
-RUN apk add --no-cache curl ca-certificates
+LABEL org.opencontainers.image.title="TRAECNclaw MCP"
+LABEL org.opencontainers.image.description="Local-first MCP server and Agent Skill for TraeCN desktop automation"
+LABEL org.opencontainers.image.source="https://github.com/Luckycat133/traecnclaw-mcp-skill"
+LABEL org.opencontainers.image.version="0.5.6"
 
-ARG RELEASE_TAG=v0.3.0-mcp-skill.1
-ARG PACKAGE=traecnclaw-0.3.0.tgz
-ARG REPO=https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download
+RUN apk add --no-cache ca-certificates curl
 
-# Install the MCP server globally from the release artifact.
-RUN curl -fsSL "${REPO}/${RELEASE_TAG}/${PACKAGE}" \
-    | npm install -g --unsafe-perm
+ARG TRAECNCLAW_RELEASE_BASE=https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download
 
-# Default profile limits tools to safe public operations.
-ENV TRAECN_MCP_TOOL_PROFILE=public
-ENV TRAECN_HOST=127.0.0.1
-ENV TRAECN_PORT=8788
-# TRAECN_GATEWAY_TOKEN is intentionally NOT set here.
-# Glama or the runtime injector supplies it.
+RUN curl -fsSLo /tmp/traecnclaw.tgz \
+      "${TRAECNCLAW_RELEASE_BASE}/v0.5.6/traecnclaw-0.5.6.tgz" \
+    && npm install -g --ignore-scripts /tmp/traecnclaw.tgz \
+    && rm -f /tmp/traecnclaw.tgz \
+    && npm cache clean --force
+
+ENV TRAECN_GATEWAY_HOST=127.0.0.1
+ENV TRAECN_GATEWAY_PORT=8788
 
 ENTRYPOINT ["traecnclaw-mcp"]

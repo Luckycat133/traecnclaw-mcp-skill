@@ -5,12 +5,15 @@
   "toolCount": 20,
   "repository": "https://github.com/Luckycat133/traecnclaw-mcp-skill",
   "canonicalRepository": "https://github.com/Luckycat133/TRAECNclaw",
-  "sourceRevision": "0fde120d5c2ac848ef61f14b7d3faf1e44c74894",
+  "sourceRevision": "6a3e18a50f3ec8494adbe2d1a3d148ec564e360b",
   "skillPath": ".codex/skills/traecnclaw-mcp",
   "marketplaces": {
     "glama": {
-      "status": "metadata-ready",
-      "file": "glama.json"
+      "status": "listing-ready",
+      "file": "glama.json",
+      "dockerfile": "Dockerfile",
+      "runtime": "local-gateway-required",
+      "hostedConnector": false
     },
     "smithery": {
       "status": "requires-mcpb-publication",
