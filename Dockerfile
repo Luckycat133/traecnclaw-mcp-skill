@@ -14,11 +14,10 @@ LABEL org.opencontainers.image.version="0.5.6"
 
 RUN apk add --no-cache ca-certificates curl
 
-ARG TRAECNCLAW_VERSION=0.5.6
 ARG TRAECNCLAW_RELEASE_BASE=https://github.com/Luckycat133/traecnclaw-mcp-skill/releases/download
 
 RUN curl -fsSLo /tmp/traecnclaw.tgz \
-      "${TRAECNCLAW_RELEASE_BASE}/v${TRAECNCLAW_VERSION}/traecnclaw-${TRAECNCLAW_VERSION}.tgz" \
+      "${TRAECNCLAW_RELEASE_BASE}/v0.5.6/traecnclaw-0.5.6.tgz" \
     && npm install -g --ignore-scripts /tmp/traecnclaw.tgz \
     && rm -f /tmp/traecnclaw.tgz \
     && npm cache clean --force
