@@ -1,6 +1,6 @@
 # TRAECNclaw MCP Skill
 
-> Generated from canonical TRAECNclaw 0.5.6 at commit `6a3e18a50f3ec8494adbe2d1a3d148ec564e360b`.
+> Generated from canonical TRAECNclaw 0.5.7 at commit `17f2f6a3300e77ee3335d3de50e0c47e4ddf8301`.
 
 TRAECNclaw is a local-first MCP server and Agent Skill for operating the TraeCN
 desktop app on the user's Mac. This repository is the public distribution
