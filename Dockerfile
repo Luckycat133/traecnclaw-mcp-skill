@@ -1,4 +1,4 @@
-# Glama inspection image for TRAECNclaw MCP 0.5.9
+# Glama inspection image for TRAECNclaw MCP 0.6.0
 #
 # This image lets Glama build the public package and inspect the stdio MCP
 # schema. Normal TRAECNclaw execution remains local-first: the gateway and
@@ -10,7 +10,7 @@ FROM node:22-alpine
 LABEL org.opencontainers.image.title="TRAECNclaw MCP"
 LABEL org.opencontainers.image.description="Local-first MCP server and Agent Skill for TraeCN desktop automation"
 LABEL org.opencontainers.image.source="https://github.com/Luckycat133/traecnclaw-mcp-skill"
-LABEL org.opencontainers.image.version="0.5.9"
+LABEL org.opencontainers.image.version="0.6.0"
 
 RUN apk add --no-cache ca-certificates curl
 
@@ -20,7 +20,7 @@ ARG TRAECNCLAW_RELEASE_BASE=https://github.com/Luckycat133/traecnclaw-mcp-skill/
 # this Linux image only to inspect the stdio schema, so bypass npm's platform
 # guard here without changing the package metadata or claiming Linux support.
 RUN curl -fsSLo /tmp/traecnclaw.tgz \
-      "${TRAECNCLAW_RELEASE_BASE}/v0.5.9/traecnclaw-0.5.9.tgz" \
+      "${TRAECNCLAW_RELEASE_BASE}/v0.6.0/traecnclaw-0.6.0.tgz" \
     && npm install -g --ignore-scripts --force /tmp/traecnclaw.tgz \
     && rm -f /tmp/traecnclaw.tgz \
     && npm cache clean --force
