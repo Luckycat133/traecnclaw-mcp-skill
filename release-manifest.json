@@ -1,11 +1,11 @@
 {
   "name": "traecnclaw-mcp-skill",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "contractVersion": 5,
   "toolCount": 20,
   "repository": "https://github.com/Luckycat133/traecnclaw-mcp-skill",
   "canonicalRepository": "https://github.com/Luckycat133/TRAECNclaw",
-  "sourceRevision": "a579d771d0e63b19117cb5308b6be26f6c56d087",
+  "sourceRevision": "40bcf7707ed9b0ff7938aea8e511d0b87d300705",
   "skillPath": ".codex/skills/traecnclaw-mcp",
   "marketplaces": {
     "glama": {
