@@ -27,3 +27,12 @@ jobs:
           grep -q '^name: traecnclaw-mcp$' .codex/skills/traecnclaw-mcp/SKILL.md
           grep -q '^description:' .codex/skills/traecnclaw-mcp/SKILL.md
           grep -q '^Canonical commit: [0-9a-f]\{40\}$' SOURCE_REVISION
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Validate pinned public distribution without installation
+        run: |
+          node --check scripts/verify-public-distribution.js
+          node --check scripts/verify-public-distribution.test.js
+          node scripts/verify-public-distribution.js
+          node --test scripts/verify-public-distribution.test.js
