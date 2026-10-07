@@ -95,9 +95,28 @@ not start TRAECNclaw, TraeCN or a service, or install dependencies.
 With Node.js 22 or newer:
 
 ```sh
-node scripts/verify-public-distribution.js
+node scripts/verify-public-distribution.js --checkout
 node --test scripts/verify-public-distribution.test.js
 ```
+
+Use `--checkout` for the complete repository. It inventories every path and
+accepts only the existing 35 distribution files plus explicitly listed
+maintenance paths. Maintenance symlinks are checked by their exact link text
+without following them; maintenance content is excluded from the in-memory
+snapshot. Unknown paths, even under maintenance directories, are rejected.
+The 35-file snapshot is then checked by the strict validator. To validate an
+already isolated distribution snapshot, use
+`node scripts/verify-public-distribution.js --root /path/to/snapshot` without
+`--checkout`; symlinks remain forbidden there. Neither command writes files,
+creates release archives or exports the full checkout. The canonical exporter
+still has its separate 22-output contract; the 35-file repository snapshot also
+contains validation code, workflows and documentation.
+
+The checkout adapter pins the unchanged transition baseline and checks each
+selected file and its parent directories, file modes and bytes. Its separate
+maintenance inventory checks names, modes and link text, not maintenance-file
+content provenance. Reviewed new maintenance paths require an explicit inventory
+change; they do not belong in the distribution allowlist.
 
 The transition baseline records the already-public bytes, the copied Formula
 and the disabled legacy sync workflow. The validator rejects missing/unlisted

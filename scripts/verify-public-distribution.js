@@ -143,10 +143,166 @@ function verifySnapshot(files) {
     toolCount: contracts.tools.length, installsRun: false, networkUsed: false };
 }
 
+// These are checkout-only maintenance paths introduced by public main
+// 8757117a39801649ca91cbc50ea1537534e83783. This is an exact inventory, not
+// a directory ignore rule or permission to put maintenance files in a release.
+// Link text is checked with readlink only; link targets are never traversed.
+const CHECKOUT_MAINTENANCE = Object.freeze({
+  ".agents/SKILLS.md": {"mode": "100644"},
+  ".agents/hooks.json": {"mode": "100644"},
+  ".agents/hooks/README.md": {"mode": "100644"},
+  ".agents/hooks/project_context.py": {"mode": "100644"},
+  ".agents/hooks/source.json": {"mode": "100644"},
+  ".agents/hooks/test_project_context.py": {"mode": "100644"},
+  ".agents/rules/generated-mirror-maintenance.md": {"mode": "100644"},
+  ".agents/skills/github-actions/.clawhub/origin.json": {"mode": "100644"},
+  ".agents/skills/github-actions/SKILL.md": {"mode": "100644"},
+  ".agents/skills/github-actions/_meta.json": {"mode": "100644"},
+  ".agents/skills/github-actions/debugging-playbook.md": {"mode": "100644"},
+  ".agents/skills/github-actions/memory-template.md": {"mode": "100644"},
+  ".agents/skills/github-actions/performance-tuning.md": {"mode": "100644"},
+  ".agents/skills/github-actions/release-patterns.md": {"mode": "100644"},
+  ".agents/skills/github-actions/security-model.md": {"mode": "100644"},
+  ".agents/skills/github-actions/setup.md": {"mode": "100644"},
+  ".agents/skills/github-actions/skill-card.md": {"mode": "100644"},
+  ".agents/skills/github-actions/workflow-patterns.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/LICENSE.txt": {"mode": "100644"},
+  ".agents/skills/mcp-builder/SKILL.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/reference/evaluation.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/reference/mcp_best_practices.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/reference/node_mcp_server.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/reference/python_mcp_server.md": {"mode": "100644"},
+  ".agents/skills/mcp-builder/scripts/connections.py": {"mode": "100644"},
+  ".agents/skills/mcp-builder/scripts/evaluation.py": {"mode": "100644"},
+  ".agents/skills/mcp-builder/scripts/example_evaluation.xml": {"mode": "100644"},
+  ".agents/skills/mcp-builder/scripts/requirements.txt": {"mode": "100644"},
+  ".agents/skills/traecnclaw-mcp": {"mode": "120000","target": "../../.codex/skills/traecnclaw-mcp"},
+  ".agents/skills/traecnclaw-mirror-maintenance/SKILL.md": {"mode": "100644"},
+  ".claude/hooks/README.md": {"mode": "100644"},
+  ".claude/hooks/project_context.py": {"mode": "100644"},
+  ".claude/hooks/source.json": {"mode": "100644"},
+  ".claude/hooks/test_project_context.py": {"mode": "100644"},
+  ".claude/settings.json": {"mode": "100644"},
+  ".claude/skills/github-actions": {"mode": "120000","target": "../../.agents/skills/github-actions"},
+  ".claude/skills/mcp-builder": {"mode": "120000","target": "../../.agents/skills/mcp-builder"},
+  ".claude/skills/traecnclaw-mcp": {"mode": "120000","target": "../../.agents/skills/traecnclaw-mcp"},
+  ".claude/skills/traecnclaw-mirror-maintenance": {"mode": "120000","target": "../../.agents/skills/traecnclaw-mirror-maintenance"},
+  ".codex/hooks.json": {"mode": "100644"},
+  ".codex/hooks/README.md": {"mode": "100644"},
+  ".codex/hooks/mirror_edit_context.py": {"mode": "100644"},
+  ".codex/hooks/test_project_context.py": {"mode": "100644"},
+  ".codex/skills/github-actions": {"mode": "120000","target": "../../.agents/skills/github-actions"},
+  ".codex/skills/mcp-builder": {"mode": "120000","target": "../../.agents/skills/mcp-builder"},
+  "AGENTS.md": {"mode": "100644"},
+  "CLAUDE.md": {"mode": "100644"},
+  "GEMINI.md": {"mode": "100644"},
+});
+const CHECKOUT_BASELINE_BLOB = '130437d9e907cacb8e2816c39b8807355dc05ee2';
+
+function checkedDirectory(absolute, label) {
+  const stat = fs.lstatSync(absolute);
+  requireThat(stat.isDirectory() && !stat.isSymbolicLink(), `Directory must not be a symlink: ${label}`);
+  requireThat((stat.mode & 0o7000) === 0, `Unexpected special directory mode: ${label}`);
+  requireThat(fs.realpathSync(absolute) === absolute, `Path must not traverse a symlink: ${label}`);
+}
+
+// Check every selected path's parents again immediately before opening it.
+// This complements the inventory traversal and O_NOFOLLOW on the file itself.
+function readCheckoutFile(root, entry) {
+  const parts = entry.split('/');
+  let parent = root;
+  checkedDirectory(parent, '.');
+  for (const part of parts.slice(0, -1)) {
+    parent = path.join(parent, part);
+    checkedDirectory(parent, path.relative(root, parent));
+  }
+  const absolute = path.join(root, entry);
+  const stat = fs.lstatSync(absolute);
+  requireThat(stat.isFile() && !stat.isSymbolicLink(), `Distribution file must be regular, not a symlink: ${entry}`);
+  const expectedExecutableBits = EXECUTABLE_FILES.has(entry) ? 0o111 : 0;
+  requireThat((stat.mode & 0o7111) === expectedExecutableBits, `Unexpected executable or special mode: ${entry}`);
+  requireThat(stat.size <= MAX_FILE_BYTES, `File exceeds size limit: ${entry}`);
+  requireThat(fs.realpathSync(absolute) === absolute, `Path must not traverse a symlink: ${entry}`);
+  const descriptor = fs.openSync(absolute, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+  let content;
+  try {
+    const opened = fs.fstatSync(descriptor);
+    requireThat(opened.isFile() && opened.ino === stat.ino && opened.dev === stat.dev &&
+      opened.size === stat.size && opened.mode === stat.mode, `File changed during validation: ${entry}`);
+    content = fs.readFileSync(descriptor);
+    requireThat(content.length === stat.size, `File changed during validation: ${entry}`);
+  } finally { fs.closeSync(descriptor); }
+  requireThat(!content.includes(0), `Binary file is not allowed: ${entry}`);
+  try { new TextDecoder('utf-8', { fatal: true }).decode(content); }
+  catch { throw new Error(`Invalid UTF-8: ${entry}`); }
+  return content;
+}
+
+function readCheckout(root) {
+  root = path.resolve(root);
+  checkedDirectory(root, '.');
+  const baselineBytes = readCheckoutFile(root, BASELINE);
+  // Do not let an edited checkout baseline silently classify additional public
+  // files as distribution. A later release must review this adapter as well.
+  requireThat(blobHash(baselineBytes) === CHECKOUT_BASELINE_BLOB, 'Checkout distribution baseline changed');
+  const distribution = new Set(JSON.parse(baselineBytes).allowedFiles);
+  const directories = new Set();
+  for (const name of [...distribution, ...Object.keys(CHECKOUT_MAINTENANCE)]) {
+    const parts = name.split('/');
+    for (let length = 1; length < parts.length; length++) directories.add(parts.slice(0, length).join('/'));
+  }
+  const files = new Map();
+  const maintenanceFiles = [];
+  let entries = 0;
+  let bytes = 0;
+  function visit(directory, relative = '') {
+    checkedDirectory(directory, relative || '.');
+    for (const name of fs.readdirSync(directory).sort()) {
+      if (relative === '' && name === '.git') continue;
+      requireThat(++entries <= 200, 'Checkout contains too many entries');
+      const entry = relative ? `${relative}/${name}` : name;
+      const absolute = path.join(directory, name);
+      if (directories.has(entry)) {
+        checkedDirectory(absolute, entry);
+        visit(absolute, entry);
+      } else if (distribution.has(entry)) {
+        const content = readCheckoutFile(root, entry);
+        bytes += content.length;
+        requireThat(bytes <= MAX_TOTAL_BYTES, 'Distribution exceeds size limit');
+        files.set(entry, content);
+      } else {
+        const expected = Object.hasOwn(CHECKOUT_MAINTENANCE, entry) ? CHECKOUT_MAINTENANCE[entry] : null;
+        requireThat(expected, `Unexpected checkout path: ${entry}`);
+        const stat = fs.lstatSync(absolute);
+        if (expected.mode === '120000') {
+          requireThat(stat.isSymbolicLink(), `Maintenance link required: ${entry}`);
+          requireThat(fs.readlinkSync(absolute) === expected.target, `Maintenance link target changed: ${entry}`);
+        } else {
+          requireThat(stat.isFile() && !stat.isSymbolicLink(), `Maintenance file must be regular: ${entry}`);
+          requireThat((stat.mode & 0o7111) === 0, `Unexpected maintenance mode: ${entry}`);
+          requireThat(stat.size <= MAX_FILE_BYTES, `Maintenance file exceeds size limit: ${entry}`);
+        }
+        maintenanceFiles.push(entry);
+      }
+    }
+  }
+  visit(root);
+  for (const name of distribution) requireThat(files.has(name), `Missing file: ${name}`);
+  return { files, maintenanceFiles };
+}
+
+function verifyCheckout(root) {
+  const { files, maintenanceFiles } = readCheckout(root);
+  return { ...verifySnapshot(files), excludedMaintenanceFileCount: maintenanceFiles.length };
+}
+
 function main(args) {
+  const checkout = args[0] === '--checkout';
+  if (checkout) args = args.slice(1);
   requireThat(args.length === 0 || (args.length === 2 && args[0] === '--root' && args[1]),
-    'Usage: node scripts/verify-public-distribution.js [--root DIRECTORY]');
-  return verifySnapshot(readSnapshot(args.length ? args[1] : path.resolve(__dirname, '..')));
+    'Usage: node scripts/verify-public-distribution.js [--checkout] [--root DIRECTORY]');
+  const root = args.length ? args[1] : path.resolve(__dirname, '..');
+  return checkout ? verifyCheckout(root) : verifySnapshot(readSnapshot(root));
 }
 
 if (require.main === module) {
@@ -154,4 +310,4 @@ if (require.main === module) {
   catch (error) { console.error(`Public distribution validation failed: ${error.message}`); process.exitCode = 1; }
 }
 
-module.exports = { readSnapshot, verifySnapshot, blobHash, main, MAX_FILE_BYTES };
+module.exports = { readSnapshot, verifySnapshot, readCheckout, verifyCheckout, blobHash, main, MAX_FILE_BYTES, CHECKOUT_MAINTENANCE };
