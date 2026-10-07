@@ -1,0 +1,11 @@
+{
+  "mirror-project-context": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python3 hooks/project_context.py",
+        "timeout": 3
+      }
+    ]
+  }
+}
