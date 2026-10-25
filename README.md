@@ -40,6 +40,14 @@ also provides the complete scoped npm tarball and deterministic MCPB bundle.
 The unrelated unscoped `traecnclaw@0.3.1` package is historical and is not a
 current install path.
 
+## Homebrew compatibility transition
+
+This repository also carries `Formula/traecnclaw.rb`, copied byte-for-byte from
+the existing public 0.6.0 tap. `Luckycat133/homebrew-tap` remains available during
+the transition. Existing installations do not change automatically. See
+[migration, checks and rollback](docs/HOMEBREW-MIGRATION.md) before changing a tap
+remote. The Skill, source revision and historical release downloads are unchanged.
+
 ## Install the Agent Skill
 
 Install from the public GitHub repository with the open Skills CLI:
