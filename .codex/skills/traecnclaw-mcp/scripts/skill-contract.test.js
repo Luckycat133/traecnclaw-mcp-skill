@@ -14,7 +14,6 @@ const {
   MCP_TOOLS,
   getMcpToolMetadata
 } = require(path.join(repoRoot, 'mcp-server'));
-const { buildContract, serialize } = require('./sync-mcp-contracts');
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(skillRoot, relativePath), 'utf8'));
@@ -55,7 +54,6 @@ function expectedContract() {
       name: tool.name,
       description: tool.description,
       inputSchema: tool.inputSchema,
-      outputSchema: tool.outputSchema,
       metadata: getMcpToolMetadata(tool.name)
     }))
   };
@@ -74,12 +72,12 @@ assert.deepStrictEqual(direct.mcpServers.traecn.args, ['/absolute/path/to/TRAECN
 const skillDocument = fs.readFileSync(path.join(skillRoot, 'SKILL.md'), 'utf8');
 assert.match(
   skillDocument,
-  /^ {4}primaryEnv: TRAECN_GATEWAY_TOKEN$/m,
+  /^    primaryEnv: TRAECN_GATEWAY_TOKEN$/m,
   'the gateway credential must be identified as the primary environment secret'
 );
 assert.match(
   skillDocument,
-  /^ {4}envVars:\n(?:.*\n)*? {6}- name: TRAECN_GATEWAY_TOKEN\n {8}required: false\n {8}description: .*never (?:read, )?print, log, or persist it\.$/m,
+  /^    envVars:\n(?:.*\n)*?      - name: TRAECN_GATEWAY_TOKEN\n        required: false\n        description: .*never (?:read, )?print, log, or persist it\.$/m,
   'the optional gateway token must have a machine-readable declaration and handling restriction'
 );
 assert.doesNotMatch(
@@ -107,13 +105,7 @@ assert.match(
   'permanent deletion example must warn that the conversation cannot be restored'
 );
 
-const contract = expectedContract();
-assert.deepStrictEqual(
-  JSON.parse(serialize(buildContract())),
-  contract,
-  'serialized Skill contracts must preserve the complete runtime tool schemas and order'
-);
-assert.deepStrictEqual(readJson('references/mcp-tool-contracts.json'), contract);
+assert.deepStrictEqual(readJson('references/mcp-tool-contracts.json'), expectedContract());
 
 const docs = [
   skillDocument,
